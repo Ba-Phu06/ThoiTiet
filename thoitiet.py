@@ -1,7 +1,7 @@
 import requests
 import csv
 import os  # Bắt buộc phải thêm dòng này
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 endpoint = "https://api.openweathermap.org/data/2.5/weather"
 api_key = os.environ.get("WEATHER_API_KEY") # Lấy Key bí mật từ GitHub
@@ -18,6 +18,15 @@ response = requests.get(endpoint, params=params)
 
 if response.status_code == 200:
     data = response.json()
+    # --- PHẦN CẦN SỬA LẠI ĐỂ LẤY GIỜ VIỆT NAM ---
+    # Thiết lập múi giờ Việt Nam (UTC+7)
+    tz_vn = timezone(timedelta(hours=7))
+    
+    # Lấy thời gian hiện tại và áp dụng múi giờ Việt Nam
+    now = datetime.now(tz_vn)
+    ngay = now.strftime("%Y-%m-%d")
+    gio = now.strftime("%H:%M:%S")
+    # ---------------------------------------------
     
     # 1. Trích xuất các thuộc tính rõ ràng cho Database
     ngay = datetime.now().strftime("%Y-%m-%d") # Định dạng chuẩn SQL: YYYY-MM-DD
