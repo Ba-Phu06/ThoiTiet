@@ -18,15 +18,16 @@ response = requests.get(endpoint, params=params)
 
 if response.status_code == 200:
     data = response.json()
-    # --- PHẦN CẦN SỬA LẠI ĐỂ LẤY GIỜ VIỆT NAM ---
-    # Thiết lập múi giờ Việt Nam (UTC+7)
-    tz_vn = timezone(timedelta(hours=7))
+# --- CÁCH MỚI: TÍNH TOÁN GIỜ CHẮC CHẮN 100% ---
+    # 1. Bắt buộc lấy giờ gốc là UTC
+    utc_now = datetime.now(timezone.utc)
     
-    # Lấy thời gian hiện tại và áp dụng múi giờ Việt Nam
-    now = datetime.now(tz_vn)
-    ngay = now.strftime("%Y-%m-%d")
-    gio = now.strftime("%H:%M:%S")
-    # ---------------------------------------------
+    # 2. Cộng thêm đúng 7 tiếng để ra giờ Việt Nam
+    vn_now = utc_now + timedelta(hours=7)
+    
+    # 3. Xuất ra chuỗi
+    ngay = vn_now.strftime("%Y-%m-%d")
+    gio = vn_now.strftime("%H:%M:%S")
     
     # 1. Trích xuất các thuộc tính rõ ràng cho Database
     ngay = datetime.now().strftime("%Y-%m-%d") # Định dạng chuẩn SQL: YYYY-MM-DD
