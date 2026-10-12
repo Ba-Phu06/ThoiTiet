@@ -1,17 +1,19 @@
 import requests
 import csv
-import os
+import os  # Bắt buộc phải thêm dòng này
 from datetime import datetime
 
 endpoint = "https://api.openweathermap.org/data/2.5/weather"
+api_key = os.environ.get("WEATHER_API_KEY") # Lấy Key bí mật từ GitHub
+
 params = {
     "lat": 16.0544,
     "lon": 108.2022,
-    "appid": "9fb1284b09a5fd04e4dba8d5196531c0", # Giữ nguyên API Key của bạn
+    "appid": api_key, # Chỗ này đổi thành biến api_key
     "units": "metric",
     "lang": "vi"
 }
-
+# ... (phần code bên dưới giữ nguyên)
 response = requests.get(endpoint, params=params)
 
 if response.status_code == 200:
